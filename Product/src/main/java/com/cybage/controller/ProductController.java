@@ -13,7 +13,7 @@ import com.cybage.pojo.Product;
 import com.cybage.service.IProductService;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/${env}product")
 public class ProductController {
 	
 	public ProductController() {
@@ -25,13 +25,11 @@ public class ProductController {
 
 	@GetMapping("/{id}")
 	public Product getProduct(@PathVariable("id") Integer productId) {
-		System.out.println("get product");
 		return productService.getProduct(productId);
 	}
 
 	@GetMapping("/productIds")
 	public List<Integer> getProductIds(@RequestParam("id") Integer categoryId) {
-		System.out.println("get product Ids");
 		return productService.getProductIds(categoryId);
 	}
 
