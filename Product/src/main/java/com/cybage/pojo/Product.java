@@ -2,11 +2,19 @@ package com.cybage.pojo;
 
 import org.springframework.stereotype.Component;
 
-@Component
+import javax.persistence.*;
+
+@Entity
 public class Product {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id = 0;
+
+	@Column
 	private String name = "Orange";
+
+	@Column
 	private int catId = 2;
 
 	public Product() {

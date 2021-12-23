@@ -13,7 +13,7 @@ import com.cybage.pojo.Product;
 import com.cybage.service.IProductService;
 
 @RestController
-@RequestMapping("/${env}product")
+@RequestMapping("/product")
 public class ProductController {
 	
 	public ProductController() {

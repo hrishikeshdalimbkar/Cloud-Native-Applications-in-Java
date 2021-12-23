@@ -3,6 +3,8 @@ package com.cybage.service;
 import java.util.Arrays;
 import java.util.List;
 
+import com.cybage.dao.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cybage.pojo.Product;
@@ -14,9 +16,12 @@ public class ProductServiceImpl implements IProductService {
 		System.out.println("in ctr of Product Service");
 	}
 
+	@Autowired
+	ProductRepository productRepository;
+
 	@Override
 	public Product getProduct(int productId) {
-		return new Product(productId);
+		return productRepository.findById(productId).get();
 	}
 
 	@Override
