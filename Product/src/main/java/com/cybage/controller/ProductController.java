@@ -29,7 +29,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/productIds")
-	public List<Integer> getProductIds(@RequestParam("id") Integer categoryId) {
+	public List<Product> getProductIds(@RequestParam("id") Integer categoryId) {
 		return productService.getProductIds(categoryId);
 	}
 

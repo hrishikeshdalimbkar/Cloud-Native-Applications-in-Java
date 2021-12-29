@@ -8,6 +8,6 @@ public interface IProductService {
 	
 	Product getProduct(int productId);
 	
-	List<Integer> getProductIds(int categoryId);
+	List<Product> getProductIds(int categoryId);
 
 }
