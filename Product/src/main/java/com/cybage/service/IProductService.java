@@ -10,4 +10,10 @@ public interface IProductService {
 	
 	List<Product> getProductIds(int categoryId);
 
+	Product insertProduct(Product product);
+
+	Product updateProduct(Integer productId, Product product);
+
+	void deleteProduct(Integer productId);
+
 }

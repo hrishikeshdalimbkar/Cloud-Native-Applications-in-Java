@@ -10,7 +10,7 @@ import com.cybage.pojo.Product;
 
 @Service
 public class ProductServiceImpl implements IProductService {
-	
+
 	public ProductServiceImpl() {
 		System.out.println("in ctr of Product Service");
 	}
@@ -26,6 +26,22 @@ public class ProductServiceImpl implements IProductService {
 	@Override
 	public List<Product> getProductIds(int categoryId) {
 		return productRepository.findByCatId(categoryId);
+	}
+
+	@Override
+	public Product insertProduct(Product product) {
+		return productRepository.save(product);
+	}
+
+	@Override
+	public Product updateProduct(Integer productId, Product product) {
+		product.setId(productId);
+		return productRepository.save(product);
+	}
+
+	@Override
+	public void deleteProduct(Integer productId) {
+		productRepository.delete(getProduct(productId));
 	}
 
 }
