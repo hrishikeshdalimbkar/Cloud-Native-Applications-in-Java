@@ -1,6 +1,7 @@
 package com.cybage.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cybage.exception.BadRequestException;
 import com.cybage.pojo.Product;
 import com.cybage.service.IProductService;
 
@@ -29,12 +31,20 @@ public class ProductController {
 	@Autowired
 	IProductService productService;
 
-	@GetMapping("/{id}")
-	public Product getProduct(@PathVariable("id") Integer productId) {
-		return productService.getProduct(productId);
+	private Product findProduct(Integer productId) {
+		Optional<Product> product = productService.getProduct(productId);
+		if (product.isPresent())
+			return product.get();
+		else
+			throw new BadRequestException(BadRequestException.ID_NOT_FOUND, "No product found for ID: " + productId);
 	}
 
-	@GetMapping("/productIds")
+	@GetMapping("/{id}")
+	public Product getProduct(@PathVariable("id") Integer productId) {
+		return findProduct(productId);
+	}
+
+	@GetMapping("/products")
 	public List<Product> getProductIds(@RequestParam("id") Integer categoryId) {
 		return productService.getProductIds(categoryId);
 	}
@@ -46,13 +56,27 @@ public class ProductController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Product> updateProduct(@PathVariable("id") Integer productId, @RequestBody Product product) {
-		return new ResponseEntity<>(productService.updateProduct(productId, product), HttpStatus.OK);
+
+		// First fetch an existing product and then modify it.
+		Product existingProduct = findProduct(productId);
+
+		// Now update it back
+		existingProduct.setCatId(product.getCatId());
+		existingProduct.setName(product.getName());
+
+		return new ResponseEntity<>(productService.updateProduct(existingProduct), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer productId) {
-		productService.deleteProduct(productId);
-		return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
+	public ResponseEntity<Product> deleteProduct(@PathVariable("id") Integer productId) {
+
+		// First fetch an existing product and then delete it.
+		Product existingProduct = findProduct(productId);
+
+		// Return the deleted product
+		productService.deleteProduct(existingProduct);
+
+		return new ResponseEntity<>(existingProduct, HttpStatus.OK);
 	}
 
 }

@@ -5,15 +5,15 @@ import java.util.List;
 import com.cybage.pojo.Product;
 
 public interface IProductService {
-	
-	Product getProduct(int productId);
-	
+
+	java.util.Optional<Product> getProduct(int productId);
+
 	List<Product> getProductIds(int categoryId);
 
 	Product insertProduct(Product product);
 
-	Product updateProduct(Integer productId, Product product);
+	Product updateProduct(Product product);
 
-	void deleteProduct(Integer productId);
+	void deleteProduct(Product product);
 
 }

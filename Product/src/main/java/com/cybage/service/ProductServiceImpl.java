@@ -1,6 +1,7 @@
 package com.cybage.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class ProductServiceImpl implements IProductService {
 	ProductRepository productRepository;
 
 	@Override
-	public Product getProduct(int productId) {
-		return productRepository.findById(productId).get();
+	public Optional<Product> getProduct(int productId) {
+		return productRepository.findById(productId);
 	}
 
 	@Override
@@ -34,14 +35,13 @@ public class ProductServiceImpl implements IProductService {
 	}
 
 	@Override
-	public Product updateProduct(Integer productId, Product product) {
-		product.setId(productId);
+	public Product updateProduct(Product product) {
 		return productRepository.save(product);
 	}
 
 	@Override
-	public void deleteProduct(Integer productId) {
-		productRepository.delete(getProduct(productId));
+	public void deleteProduct(Product product) {
+		productRepository.delete(product);
 	}
 
 }
