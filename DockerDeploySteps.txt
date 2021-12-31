@@ -1,0 +1,18 @@
+# create network
+
+docker network create cna
+docker network ls
+
+# Volume
+
+docker volume create mysql-volume
+docker container run -itd --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3307:3306 --network cna -v mysql-volume:/var/lib/mysql mysql
+
+# Deployment 
+172.20.0.3
+
+docker build -t cna/eureka-server .
+docker container run -itd --name eureka-server --network cna -p 8761:8761 cna/eureka-server
+
+docker build -t cna/product-server .
+docker container run -itd --name product-server --network cna -p 8080:8080 cna/product-server
